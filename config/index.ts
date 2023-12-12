@@ -17,3 +17,7 @@ export async function get(url: string) {
 export async function post<T>(url: string, body: T) {
   return (await api.post(url, body)).data;
 }
+
+export async function patch<T>(url: string, body: T) {
+  return (await api.patch(url, body)).data;
+}
