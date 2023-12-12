@@ -7,11 +7,10 @@ import {
   WalletProvider,
 } from "@solana/wallet-adapter-react";
 import {
-  WalletDisconnectButton,
   WalletModalProvider,
   WalletMultiButton,
 } from "@solana/wallet-adapter-react-ui";
-// Default styles that can be overridden by your app
+import { useEffect, useState } from "react";
 require("@solana/wallet-adapter-react-ui/styles.css");
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,6 +19,11 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const [mounted, setmounted] = useState(false);
+  useEffect(() => {
+    setmounted(true);
+  }, [mounted]);
+
   return (
     <html lang="en">
       <body className={inter.className}>
@@ -27,8 +31,7 @@ export default function RootLayout({
           <WalletProvider wallets={WALLETS} autoConnect>
             <WalletModalProvider>
               <WalletMultiButton />
-              <WalletDisconnectButton />
-              {children}
+              {mounted ? children : <></>}
             </WalletModalProvider>
           </WalletProvider>
         </ConnectionProvider>
