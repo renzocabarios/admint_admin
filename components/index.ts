@@ -1,3 +1,4 @@
 import FormInput from "./FormInput";
+import BreadCrumbs from "./BreadCrumbs";
 
-export { FormInput };
+export { BreadCrumbs, FormInput };

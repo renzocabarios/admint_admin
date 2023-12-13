@@ -13,6 +13,7 @@ import {
 import style from "./style.module.css";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { BreadCrumbs } from "@/components";
 require("@solana/wallet-adapter-react-ui/styles.css");
 const inter = Inter({ subsets: ["latin"] });
 
@@ -58,6 +59,7 @@ export default function RootLayout({
                   </p>
                 </div>
                 <div className={style.content}>
+                  <BreadCrumbs />
                   {mounted ? children : <></>}
                 </div>
               </div>
