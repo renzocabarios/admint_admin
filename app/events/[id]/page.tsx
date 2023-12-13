@@ -1,18 +1,34 @@
 "use client";
-import { Button } from "@/components";
+import { Button, FormInput } from "@/components";
 import { get, patch } from "@/config";
 import useUmi from "@/hooks/useUmi";
 import { useParticipantStore } from "@/states";
 import { parseDate } from "@/utils";
 import { mint } from "@/web3";
 import { useParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 export default function Home() {
   const { participants, fetchParticipants, sendNft } =
     useParticipantStore() as any;
   const params = useParams();
   const { umi } = useUmi();
+  const [search, setsearch] = useState("");
+
+  const handleChange = (e: any) => {
+    setsearch(e.target.value);
+  };
+  const filtered = useMemo(() => {
+    if (search != "") {
+      const name = participants.filter((e: any) => e.name.includes(search));
+      const email = participants.filter((e: any) => e.email.includes(search));
+      const walletId = participants.filter((e: any) =>
+        e.walletId.includes(search)
+      );
+      return [...new Set<any>([...name, ...email, ...walletId])];
+    }
+    return participants;
+  }, [participants, search]);
 
   useEffect(() => {
     const start = async () => {
@@ -56,16 +72,22 @@ export default function Home() {
 
   return (
     <main>
-      <div className="p-3 flex flex-col gap-2">
-        {participants.map((e: any) => {
+      <div className="py-2 flex justify-between items-center w-full">
+        <FormInput
+          title="Search participants"
+          onChange={handleChange}
+        ></FormInput>
+      </div>
+      <div className=" flex flex-col gap-2">
+        {filtered.map((e: any) => {
           return (
             <div
               key={e._id}
               className={`p-3 ${
-                e.received ? "bg-gray-500" : "bg-green-500"
+                e.received ? "bg-slate-500" : "bg-green-500"
               }  rounded-md flex items-center justify-between`}
             >
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col">
                 <p>{e.name}</p>
                 <p>{e.email}</p>
                 <p>{e.walletId}</p>
