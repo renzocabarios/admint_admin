@@ -1,4 +1,5 @@
 "use client";
+import { Button } from "@/components";
 import { get, patch } from "@/config";
 import useUmi from "@/hooks/useUmi";
 import { useParticipantStore } from "@/states";
@@ -70,15 +71,14 @@ export default function Home() {
                 <p>{e.walletId}</p>
                 <p>Joined: {`${parseDate(e.createdAt)}`}</p>
               </div>
-
-              <button
+              <Button
                 onClick={() => {
                   mintNft(e._id);
                 }}
                 disabled={e.received}
               >
                 {e.received ? "Completed" : "Mint NFT"}
-              </button>
+              </Button>
             </div>
           );
         })}

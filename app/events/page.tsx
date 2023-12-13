@@ -1,4 +1,5 @@
 "use client";
+import { Button } from "@/components";
 import { get } from "@/config";
 import { parseDate } from "@/utils";
 import { useRouter } from "next/navigation";
@@ -18,25 +19,24 @@ export default function Home() {
 
   return (
     <main>
-      <button
+      <Button
         onClick={() => {
           router.push("events/create");
         }}
       >
         Create
-      </button>
+      </Button>
 
       <div className="p-3 flex flex-col gap-2">
         {events.map((e: any) => {
           return (
             <div
               key={e._id}
-              className="p-2 bg-purple-500 rounded-md"
+              className="p-4 bg-slate-500 text-white rounded-md"
               onClick={() => {
                 router.push(`/events/${e._id}`);
               }}
             >
-              <p>{e._id}</p>
               <p>{e.name}</p>
               <p>{`${parseDate(e.start)}`}</p>
               <p>{`${parseDate(e.end)}`}</p>
