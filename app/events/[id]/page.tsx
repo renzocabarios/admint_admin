@@ -58,15 +58,24 @@ export default function Home() {
       <div className="p-3 flex flex-col gap-2">
         {participants.map((e: any) => {
           return (
-            <div key={e._id} className="p-2 bg-purple-500 rounded-md">
-              <p>{e.name}</p>
-              <p>{e.email}</p>
-              <p>{e.walletId}</p>
-              <p>Joined: {`${parseDate(e.createdAt)}`}</p>
+            <div
+              key={e._id}
+              className={`p-3 ${
+                e.received ? "bg-gray-500" : "bg-green-500"
+              }  rounded-md flex items-center justify-between`}
+            >
+              <div className="flex flex-col gap-2">
+                <p>{e.name}</p>
+                <p>{e.email}</p>
+                <p>{e.walletId}</p>
+                <p>Joined: {`${parseDate(e.createdAt)}`}</p>
+              </div>
+
               <button
                 onClick={() => {
                   mintNft(e._id);
                 }}
+                disabled={e.received}
               >
                 {e.received ? "Completed" : "Mint NFT"}
               </button>
