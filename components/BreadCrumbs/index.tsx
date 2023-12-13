@@ -6,9 +6,10 @@ interface IBreadCrumbs {}
 
 function BreadCrumbs({}: IBreadCrumbs) {
   const paths = usePathname();
+
   return (
     <div>
-      <p>{`home${paths}`}</p>
+      <p>{`home${paths.replaceAll("/", " > ")}`}</p>
     </div>
   );
 }
