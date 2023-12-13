@@ -18,6 +18,14 @@ export default function Home() {
 
   return (
     <main>
+      <button
+        onClick={() => {
+          router.push("events/create");
+        }}
+      >
+        Create
+      </button>
+
       <div className="p-3 flex flex-col gap-2">
         {events.map((e: any) => {
           return (

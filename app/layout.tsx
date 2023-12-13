@@ -14,6 +14,7 @@ import style from "./style.module.css";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { BreadCrumbs } from "@/components";
+import Sidenav from "@/components/Sidenav";
 require("@solana/wallet-adapter-react-ui/styles.css");
 const inter = Inter({ subsets: ["latin"] });
 
@@ -35,29 +36,7 @@ export default function RootLayout({
           <WalletProvider wallets={WALLETS} autoConnect>
             <WalletModalProvider>
               <div className={style.container}>
-                <div className={style.sidenav}>
-                  <p
-                    onClick={() => {
-                      router.push("/users");
-                    }}
-                  >
-                    Users
-                  </p>
-                  <p
-                    onClick={() => {
-                      router.push("/events");
-                    }}
-                  >
-                    Events
-                  </p>
-                  <p
-                    onClick={() => {
-                      router.push("/participants");
-                    }}
-                  >
-                    Participants
-                  </p>
-                </div>
+                <Sidenav />
                 <div className={style.content}>
                   <BreadCrumbs />
                   {mounted ? children : <></>}
