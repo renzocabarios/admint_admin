@@ -1,4 +1,4 @@
 .sidenav {
   width: 15%;
-  @apply bg-slate-500 flex flex-col gap-4 items-center;
+  @apply bg-slate-500 flex flex-col gap-4 p-5;
 }

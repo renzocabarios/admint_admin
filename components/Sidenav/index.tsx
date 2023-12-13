@@ -2,6 +2,7 @@
 import { useRouter } from "next/navigation";
 import React from "react";
 import style from "./style.module.css";
+import { AiFillAlert } from "react-icons/ai";
 interface ISidenav {}
 interface ISidenavLinks {
   title: string;
@@ -18,14 +19,16 @@ function Sidenav({}: ISidenav) {
   return (
     <div className={style.sidenav}>
       {links.map((link: ISidenavLinks) => (
-        <p
-          key={link.title}
-          onClick={() => {
-            router.push(link.route);
-          }}
-        >
-          {link.title}
-        </p>
+        <div key={link.title} className="flex gap-2 items-center">
+          <AiFillAlert size={30} />
+          <p
+            onClick={() => {
+              router.push(link.route);
+            }}
+          >
+            {link.title}
+          </p>
+        </div>
       ))}
     </div>
   );
