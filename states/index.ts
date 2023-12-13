@@ -12,3 +12,16 @@ export const useParticipantStore = create((set) => ({
     }));
   },
 }));
+
+export const useEventStore = create((set) => ({
+  events: [],
+  fetchEvents: (entries: any[]) => set(() => ({ events: entries })),
+  sendNft: (participantId: any) => {
+    return set((state: any) => ({
+      participants: state.participants.map((e: any) => {
+        if (e._id == participantId) e.recevied = true;
+        return e;
+      }),
+    }));
+  },
+}));

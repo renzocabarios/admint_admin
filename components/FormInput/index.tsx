@@ -1,17 +1,21 @@
 import React from "react";
 
 interface IFormInput {
-  type?: string
-  title?: string
-  name?: string
-  onChange?: (e: any) => void
+  type?: string;
+  title?: string;
+  name?: string;
+  onChange?: (e: any) => void;
 }
 
 function FormInput({ type, title, onChange, name }: IFormInput) {
   return (
     <div>
       <p>{title ?? "undefined"}</p>
-      <input name={name ?? "undefined"} type={type ?? "text"} onChange={onChange ?? (() => { })} />
+      <input
+        name={name ?? "undefined"}
+        type={type ?? "text"}
+        onChange={onChange ?? (() => {})}
+      />
     </div>
   );
 }

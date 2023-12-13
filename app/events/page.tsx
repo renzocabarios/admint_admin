@@ -1,25 +1,37 @@
 "use client";
-import { Button } from "@/components";
+import { Button, FormInput } from "@/components";
 import { get } from "@/config";
+import { useEventStore } from "@/states";
 import { parseDate } from "@/utils";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 export default function Home() {
   const router = useRouter();
-  const [events, setevents] = useState([]);
+  const { events, fetchEvents } = useEventStore() as any;
+  const [search, setsearch] = useState("");
+
+  const filtered = useMemo(() => {
+    if (search != "") return events.filter((e: any) => e.name.includes(search));
+    return events;
+  }, [events, search]);
 
   useEffect(() => {
     const start = async () => {
       const temp = await get("events");
-      if (temp.status == "success") setevents(temp.data);
+      if (temp.status == "success") fetchEvents(temp.data);
     };
     start();
-  }, []);
+  }, [events, search]);
+
+  const handleChange = (e: any) => {
+    setsearch(e.target.value);
+  };
 
   return (
     <main>
-      <div className="py-2">
+      <div className="py-2 flex justify-between items-center w-full">
+        <FormInput title="Search event" onChange={handleChange}></FormInput>
         <Button
           onClick={() => {
             router.push("events/create");
@@ -30,7 +42,7 @@ export default function Home() {
       </div>
 
       <div className="flex flex-col gap-2">
-        {events.map((e: any) => {
+        {filtered.map((e: any) => {
           return (
             <div
               key={e._id}
