@@ -3,32 +3,30 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import style from "./style.module.css";
 interface ISidenav {}
+interface ISidenavLinks {
+  title: string;
+  route: string;
+}
 
 function Sidenav({}: ISidenav) {
+  const links: ISidenavLinks[] = [
+    { title: "Users", route: "/users" },
+    { title: "Events", route: "/events" },
+    { title: "Participants", route: "/participants" },
+  ];
   const router = useRouter();
   return (
     <div className={style.sidenav}>
-      <p
-        onClick={() => {
-          router.push("/users");
-        }}
-      >
-        Users
-      </p>
-      <p
-        onClick={() => {
-          router.push("/events");
-        }}
-      >
-        Events
-      </p>
-      <p
-        onClick={() => {
-          router.push("/participants");
-        }}
-      >
-        Participants
-      </p>
+      {links.map((link: ISidenavLinks) => (
+        <p
+          key={link.title}
+          onClick={() => {
+            router.push(link.route);
+          }}
+        >
+          {link.title}
+        </p>
+      ))}
     </div>
   );
 }
