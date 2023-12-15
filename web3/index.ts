@@ -1,5 +1,8 @@
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
-import { UnsafeBurnerWalletAdapter } from "@solana/wallet-adapter-wallets";
+import {
+  PhantomWalletAdapter,
+  TorusWalletAdapter,
+} from "@solana/wallet-adapter-wallets";
 import { clusterApiUrl, Connection } from "@solana/web3.js";
 import {
   generateSigner,
@@ -19,7 +22,7 @@ import { NEXT_PUBLIC_CANDY_MACHINE } from "@/env";
 export const NETWORK = WalletAdapterNetwork.Devnet;
 export const CLUSTER = clusterApiUrl(NETWORK);
 export const CONNECTION = new Connection(CLUSTER);
-export const WALLETS = [new UnsafeBurnerWalletAdapter()];
+export const WALLETS = [new PhantomWalletAdapter(), new TorusWalletAdapter()];
 
 export const mint = async (umi: Umi) => {
   const candyMachine = await fetchCandyMachine(
