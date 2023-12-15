@@ -1,6 +1,6 @@
 "use client";
 import { Button, FormInput } from "@/components";
-import { get, patch } from "@/config";
+import { get, patch, remove } from "@/config";
 import useUmi from "@/hooks/useUmi";
 import { useModalStore, useParticipantStore } from "@/states";
 import { parseDate } from "@/utils";
@@ -62,7 +62,16 @@ export default function Home() {
       alert(error);
     }
   };
+  const deleteParticipant = async (_id: string) => {
+    try {
+      const temp = await remove(`participants/${_id}`);
+      console.log(temp);
+    } catch (error: any) {
+      alert(error);
+    }
+  };
 
+  deleteParticipant;
   const sendTo = async (_id: string) => {
     try {
       const temp = await patch(`participants/${_id}/send`, {});
@@ -95,14 +104,25 @@ export default function Home() {
                 <p>{e.walletId}</p>
                 <p>Joined: {`${parseDate(e.createdAt)}`}</p>
               </div>
-              <Button
-                onClick={() => {
-                  mintNft(e._id);
-                }}
-                disabled={e.received}
-              >
-                {e.received ? "Completed" : "Mint NFT"}
-              </Button>
+
+              <div className="flex items-center">
+                <Button
+                  onClick={() => {
+                    mintNft(e._id);
+                  }}
+                  disabled={e.received}
+                >
+                  {e.received ? "Completed" : "Mint NFT"}
+                </Button>
+
+                <Button
+                  onClick={() => {
+                    deleteParticipant(e._id);
+                  }}
+                >
+                  Delete
+                </Button>
+              </div>
             </div>
           );
         })}

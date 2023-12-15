@@ -21,3 +21,7 @@ export async function post<T>(url: string, body: T) {
 export async function patch<T>(url: string, body: T) {
   return (await api.patch(url, body)).data;
 }
+
+export async function remove(url: string) {
+  return (await api.delete(url)).data;
+}
