@@ -2,7 +2,7 @@
 import { Button, FormInput } from "@/components";
 import { get, patch } from "@/config";
 import useUmi from "@/hooks/useUmi";
-import { useParticipantStore } from "@/states";
+import { useModalStore, useParticipantStore } from "@/states";
 import { parseDate } from "@/utils";
 import { mint } from "@/web3";
 import { useParams } from "next/navigation";
@@ -14,10 +14,11 @@ export default function Home() {
   const params = useParams();
   const { umi } = useUmi();
   const [search, setsearch] = useState("");
-
+  const { toggleOpen } = useModalStore() as any;
   const handleChange = (e: any) => {
     setsearch(e.target.value);
   };
+
   const filtered = useMemo(() => {
     if (search != "") {
       const name = participants.filter((e: any) => e.name.includes(search));
@@ -39,15 +40,16 @@ export default function Home() {
   }, [participants]);
 
   const mintNft = async (_id: string) => {
+    toggleOpen();
     try {
       const { tx, mintKey } = await mint(umi);
       await mintTo(_id, mintKey);
       await sendTo(_id);
       sendNft(_id);
-      alert(`${tx} ${mintKey}`);
     } catch (error: any) {
       alert(error);
     }
+    toggleOpen();
   };
 
   const mintTo = async (_id: string, mintKey: string) => {

@@ -25,3 +25,8 @@ export const useEventStore = create((set) => ({
     }));
   },
 }));
+
+export const useModalStore = create((set) => ({
+  isOpen: false,
+  toggleOpen: () => set((prev: any) => ({ isOpen: !prev.isOpen })),
+}));
