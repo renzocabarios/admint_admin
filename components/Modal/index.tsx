@@ -11,7 +11,7 @@ function Modal({}: IModal) {
       {isOpen ? (
         <div className="absolute top-0 bg-transparent h-screen w-screen flex justify-center items-center">
           <div className="bg-white p-5 opacity-100 rounded-md">
-            <p>Don't close this website, currently minting NFT</p>
+            <p>Don&apos;t close this website! currently minting NFT</p>
           </div>
         </div>
       ) : (

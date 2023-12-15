@@ -29,7 +29,7 @@ export default function Home() {
       return [...new Set<any>([...name, ...email, ...walletId])];
     }
     return participants;
-  }, [participants, search]);
+  }, [participants, search, fetchParticipants, params.id]);
 
   useEffect(() => {
     const start = async () => {

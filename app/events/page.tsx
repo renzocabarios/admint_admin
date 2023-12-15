@@ -22,7 +22,7 @@ export default function Home() {
       if (temp.status == "success") fetchEvents(temp.data);
     };
     start();
-  }, [events, search]);
+  }, [events, search, fetchEvents]);
 
   const handleChange = (e: any) => {
     setsearch(e.target.value);
