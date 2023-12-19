@@ -2,7 +2,7 @@
 import { Button, FormInput } from "@/components";
 import { get, patch, remove } from "@/config";
 import useUmi from "@/hooks/useUmi";
-import { useModalStore, useParticipantStore } from "@/states";
+import { useEventStore, useModalStore, useParticipantStore } from "@/states";
 import { parseDate } from "@/utils";
 import { mint } from "@/web3";
 import { useParams } from "next/navigation";
@@ -11,6 +11,8 @@ import { useEffect, useMemo, useState } from "react";
 export default function Home() {
   const { participants, fetchParticipants, sendNft } =
     useParticipantStore() as any;
+  const { events, fetchEvents } = useEventStore() as any;
+
   const params = useParams();
   const { umi } = useUmi();
   const [search, setsearch] = useState("");
@@ -20,19 +22,26 @@ export default function Home() {
   };
 
   const filtered = useMemo(() => {
+    let temp = [...participants];
     if (search != "") {
       const name = participants.filter((e: any) => e.name.includes(search));
       const email = participants.filter((e: any) => e.email.includes(search));
       const walletId = participants.filter((e: any) =>
         e.walletId.includes(search)
       );
-      return [...new Set<any>([...name, ...email, ...walletId])];
+      temp = [...new Set<any>([...name, ...email, ...walletId])];
     }
-    return participants;
+    const received = temp.filter((e: any) => e.received);
+    const notReceived = temp.filter((e: any) => !e.received);
+
+    return [...received, ...notReceived];
   }, [participants, search, fetchParticipants, params.id]);
 
   useEffect(() => {
     const start = async () => {
+      const response = await get(`events/${params.id}`);
+      if (response.status == "success") fetchEvents(response.data);
+
       const temp = await get(`participants?find={"event":"${params.id}"}`);
       if (temp.status == "success") fetchParticipants(temp.data);
     };
@@ -42,7 +51,7 @@ export default function Home() {
   const mintNft = async (_id: string) => {
     toggleOpen();
     try {
-      const { tx, mintKey } = await mint(umi);
+      const { tx, mintKey } = await mint(umi, events[0].candyMachine);
       await mintTo(_id, mintKey);
       await sendTo(_id);
       sendNft(_id);

@@ -6,7 +6,12 @@ import { useState } from "react";
 
 export default function Home() {
   const router = useRouter();
-  const [formData, setformData] = useState({ name: "", start: "", end: "" });
+  const [formData, setformData] = useState({
+    name: "",
+    start: "",
+    end: "",
+    candyMachine: "",
+  });
 
   const sendForm = async () => {
     const temp = await post("events", formData);
@@ -21,6 +26,11 @@ export default function Home() {
   return (
     <main>
       <FormInput name="name" title="Name" onChange={handleChange} />
+      <FormInput
+        name="candyMachine"
+        title="CandyMachine"
+        onChange={handleChange}
+      />
       <FormInput
         name="start"
         title="Start"

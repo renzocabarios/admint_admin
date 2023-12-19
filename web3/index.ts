@@ -24,11 +24,8 @@ export const CLUSTER = clusterApiUrl(NETWORK);
 export const CONNECTION = new Connection(CLUSTER);
 export const WALLETS = [new PhantomWalletAdapter(), new TorusWalletAdapter()];
 
-export const mint = async (umi: Umi) => {
-  const candyMachine = await fetchCandyMachine(
-    umi,
-    publicKey(NEXT_PUBLIC_CANDY_MACHINE)
-  );
+export const mint = async (umi: Umi, candyMachineId: string) => {
+  const candyMachine = await fetchCandyMachine(umi, publicKey(candyMachineId));
 
   const candyGuard = await safeFetchCandyGuard(umi, candyMachine.mintAuthority);
   const nftMint = generateSigner(umi);
